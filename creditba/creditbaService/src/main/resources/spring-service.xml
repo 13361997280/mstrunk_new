@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <!-- 把标记了@service注解的类转换为bean -->
+    <context:component-scan base-package="com.qianwang.service"></context:component-scan>
+
+
+    <!--邮件服务-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${email.smtp.host}"/>
+        <property name="username" value="${email.smtp.username}"/>
+        <property name="password" value="${email.smtp.password}"/>
+    </bean>
+    <bean id="emailUtil" class="com.qianwang.util.sms.EmailUtil">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="sendTo" value="${email.send.to}"/>
+    </bean>
+
+
+
+</beans>

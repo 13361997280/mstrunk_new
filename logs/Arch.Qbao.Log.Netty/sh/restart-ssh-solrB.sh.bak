@@ -1,0 +1,4 @@
+. env.sh
+
+
+ssh solrB "cd /home/jiagouzu/dooioo/bin/; . /home/jiagouzu/dooioo/bin/ssh-restart.sh; "

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.credit.dao.ConfTaskDAO">
+
+	<resultMap type="com.qianwang.credit.entity.ConfTask" id="ConfTask">
+		<result property="id" column="id" />
+		<result property="taskId" column="task_id" />
+		<result property="addScore" column="add_score" />
+		<result property="subScore" column="sub_score" />
+		<result property="isDuplicate" column="is_duplicate" />
+		<result property="memo" column="memo" />
+		<result property="operator" column="operator" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		id,task_id,add_score,sub_score,is_duplicate,memo,operator,status,create_time,update_time
+	</sql>
+
+	<sql id="simple_where" >
+		where 1=1
+		<if test="id!=null"> and id=#{id}</if>
+		<if test="taskId!=null"> and task_id=#{taskId}</if>
+		<if test="addScore!=null"> and add_score=#{addScore}</if>
+		<if test="subScore!=null"> and sub_score=#{subScore}</if>
+		<if test="status!=null"> and status=#{status}</if>
+		<if test="createTimeStart!=null"> and create_time &gt;= #{createTimeStart}</if>
+		<if test="createTimeEnd!=null"> and create_time &lt;= #{createTimeEnd}</if>
+		<if test="updateTimeStart!=null"> and update_time &gt;= #{updateTimeStart}</if>
+		<if test="updateTimeEnd!=null"> and update_time &lt;= #{updateTimeEnd}</if>
+		<if test="keyword!=null and keyword!=''"> and memo like '%#{keyword}%'</if>
+		<if test="operator!=null and operator!=''"> and operator=#{operator}</if>
+		<if test="isDuplicate!=null and isDuplicate!='' "> and is_duplicate=#{isDuplicate}</if>
+		
+		<if test="addScoreStart!=null"> and add_score &gt;= #{addScoreStart}</if>
+		<if test="addScoreEnd!=null"> and add_score &lt;= #{addScoreEnd}</if>
+		<if test="subScoreStart!=null"> and sub_score &gt;= #{subScoreStart}</if>
+		<if test="subScoreEnd!=null"> and sub_score &lt;= #{subScoreEnd}</if>
+		
+	</sql>
+
+	<sql id="simple_query" >
+		select
+			<include refid="Base_Column_List" />
+		from conf_task
+			<include refid="simple_where" />
+		<if test="orderBy!=null and orderBy!=''">
+			order by #{orderBy} <if test="!asc">desc</if>
+		</if>
+
+	</sql>
+
+	<select id="pageQuery" resultMap="ConfTask">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryList" resultMap="ConfTask">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryCount" resultType="long">
+		select count(1) 
+		from conf_task
+		<include refid="simple_where" />
+	</select>
+
+	<select id="findById" resultMap="ConfTask">
+		select
+			<include refid="Base_Column_List" />
+		from conf_task
+			where id=#{id}
+	</select>
+
+	<insert id="save">
+		<selectKey resultType="integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into conf_task (
+			id,task_id,add_score,sub_score,is_duplicate,memo,operator,status,create_time,update_time
+		)values(
+			#{id},#{taskId},#{addScore},#{subScore},#{isDuplicate},#{memo},#{operator},#{status},#{createTime},#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update 
+			conf_task
+		set 
+			id=#{id},task_id=#{taskId},add_score=#{addScore},sub_score=#{subScore},is_duplicate=#{isDuplicate},memo=#{memo},operator=#{operator},status=#{status},create_time=#{createTime},update_time=#{updateTime}
+		where 
+			id=#{id}
+	</update>
+
+	<delete id="delete">
+        delete from conf_task where id=#{id}
+    </delete>
+	
+</mapper>

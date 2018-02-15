@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qbao.dao.BusScoreDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.qbao.dto.BusScoreDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bus_id" property="busId" jdbcType="INTEGER" />
+    <result column="bus_type" property="busType" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DECIMAL" />
+    <result column="adjust_time" property="adjustTime" jdbcType="TIMESTAMP" />
+    <result column="valid_start_time" property="validStartTime" jdbcType="TIMESTAMP" />
+    <result column="valid_end_time" property="validEndTime" jdbcType="TIMESTAMP" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="c_order_id" property="cOrderId" jdbcType="VARCHAR" />
+    <result column="action" property="action" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bus_id, bus_type, user_id, `operator`, score, adjust_time, valid_start_time,
+    valid_end_time, task_id, memo, `source`, order_id, amount, quantity, c_order_id,
+    `action`, company_id, product_id, create_time, update_time
+  </sql>
+  <insert id="insertSelective" parameterType="com.qbao.dto.BusScoreDetail" >
+    insert into bus_score_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="busId != null" >
+        bus_id,
+      </if>
+      <if test="busType != null" >
+        bus_type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="operator != null" >
+        `operator`,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="adjustTime != null" >
+        adjust_time,
+      </if>
+      <if test="validStartTime != null" >
+        valid_start_time,
+      </if>
+      <if test="validEndTime != null" >
+        valid_end_time,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="source != null" >
+        `source`,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="cOrderId != null" >
+        c_order_id,
+      </if>
+      <if test="action != null" >
+        `action`,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="busId != null" >
+        #{busId,jdbcType=INTEGER},
+      </if>
+      <if test="busType != null" >
+        #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustTime != null" >
+        #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartTime != null" >
+        #{validStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndTime != null" >
+        #{validEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="cOrderId != null" >
+        #{cOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        #{action,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from bus_score_detail
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="todayScore" resultType="java.lang.Double" parameterType="com.qbao.dto.BusScoreDetail" >
+    select sum(score)
+    from bus_score_detail
+    where user_id = #{userId,jdbcType=INTEGER}
+    <if test="updateTime != null" >
+      and update_time &gt;=concat(curdate(),' 00:00:00.000')
+      and update_time &lt;=concat(curdate(),' 23:59:59.999')
+    </if>
+    <if test="productId != null" >
+      and product_id = #{productId,jdbcType=INTEGER}
+    </if>
+    and company_id = 101 and product_id > 0
+  </select>
+  <select id="isExist" resultType="java.lang.Boolean" parameterType="com.qbao.dto.BusScoreDetail" >
+    select count(1)
+    from bus_score_detail
+    where
+    user_id = #{userId,jdbcType=INTEGER}
+    <if test="updateTime != null" >
+      and update_time &gt;=concat(curdate(),' 00:00:00.000')
+      and update_time &lt;=concat(curdate(),' 23:59:59.999')
+    </if>
+    <if test="productId != null" >
+      and product_id = #{productId,jdbcType=INTEGER}
+    </if>
+    <if test="taskId != null" >
+      and task_id = #{taskId,jdbcType=INTEGER}
+    </if>
+    and company_id = 101 and product_id > 0
+  </select>
+  <update id="updateByUserIdSelective" parameterType="com.qbao.dto.BusScoreDetail" >
+    update bus_score_detail
+    <set >
+      <if test="busId != null" >
+        bus_id = #{busId,jdbcType=INTEGER},
+      </if>
+      <if test="busType != null" >
+        bus_type = #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        `operator` = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustTime != null" >
+        adjust_time = #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validStartTime != null" >
+        valid_start_time = #{validStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndTime != null" >
+        valid_end_time = #{validEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        `source` = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="cOrderId != null" >
+        c_order_id = #{cOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        `action` = #{action,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

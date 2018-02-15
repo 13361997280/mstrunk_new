@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>Arch.Qbao.OutData.Common</artifactId>
+  <packaging>jar</packaging>
+  <description>Qbao Search Common</description>
+  <name>Framework.SearchEngine.Common</name>
+
+  <parent>
+   <groupId>com.qbao.outdata</groupId>
+	<artifactId>Arch.Qbao.OutData</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <dependencies>
+    
+    <dependency>
+      <groupId>org.fusesource</groupId>
+      <artifactId>sigar</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+<!-- 			<groupId>org.jboss.netty</groupId> -->
+<!-- 			<artifactId>netty</artifactId> -->
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+		</dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
+    </dependency>
+  </dependencies>
+</project>

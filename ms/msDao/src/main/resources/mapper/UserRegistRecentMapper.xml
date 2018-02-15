@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.user.UserRegistMapper" >
+  
+  <select id="selectUserRegistRecent" resultType="userRegist" parameterType="java.util.Date" >
+    	select 
+    		stat_date statDate,
+			stat_hour statHour,
+			user_num userNum,
+			recommended_num recommendNum,
+			no_recommended_num noRecommendedNum 
+     	from heavy_user_regist_recent_hour
+     	where stat_date = #{value}
+  </select>
+    
+  <select id="selectUserRegist" resultType="userRegist" parameterType="java.util.Map" >
+    	SELECT 
+			stat_date statDate,
+			sum(user_num) userNum,
+			sum(case when is_recommend = 1 then user_num else 0 end) recommendedNum,
+			sum(case when is_recommend = 0 then user_num else 0 end) noRecommendedNum  
+		from dw.heavy_register_recommend_stat_day 		
+		where stat_date >= #{startDate} and #{endDate} >= stat_date
+		group by stat_date
+  </select> 
+  <!-- 用户分析-注册用户监测 -->
+  <select id="selectRegistUserAnalyseStat" resultType="userAnalyseStat" parameterType="java.util.Map">
+SELECT u.user_id AS userId,
+	   u.user_name AS username,
+	   u.is_client AS isClient,
+	   u.user_type AS userType,
+	   u.presenter_id AS presenterId,
+	   u.present_user_num AS presentUserNum,
+	   u.create_time AS registDate,
+	   u.cookie_user_num AS cookieUserNum,
+	   u.ip_user_num AS ipUserNum,
+	   u.fp_user_num AS fingerPrintUserNum,
+	   u.device_user_num AS deviceUserNum,
+	   u.depart_id AS departmentId,
+	   u.depart_name AS departmentName,
+	   u.spread_type_id AS spreadTypeId,
+	   u.spread_type_name AS spreadTypeName,
+	   u.district_id AS districtId,
+	   u.district_name AS districtName,
+	   u.bank,
+	   u.sub_bank AS subBank,
+	   u.card_num AS cardNum,
+	   u.sequnt_card_num AS sequentCardCount,
+	   u.card_count AS cardCount,
+	   u.sync_group AS syncGroup
+FROM dw.sync_register_user_stat u 
+WHERE u.create_time >= #{startDate} AND u.create_time <![CDATA[<]]> DATE_ADD(#{endDate},INTERVAL 1 DAY) 
+<!-- 部门选择条件过滤 -->
+<if test="channelId !=null and channelId !=-1">
+	  AND u.depart_id = #{channelId} 
+</if>
+<if test="spreadTypeId !=null and spreadTypeId !=-1">
+	  AND u.spread_type_id = #{spreadTypeId} 
+</if>
+<if test="districtId !=null and districtId !=-1">
+	  AND u.district_id = #{districtId} 
+</if>
+<!-- 推荐人ID -->
+<if test="presentUserId !=null and presentUserId != -1">
+	  AND u.presenter_id = #{presentUserId} 
+</if>
+<!-- 数据范围条件过滤 Cookie -->
+<if test="downCookieNum !=null and downCookieNum != -1">
+	  AND u.cookie_user_num >= #{downCookieNum} 
+</if>
+<if test="upCookieNum!=null and upCookieNum != -1">
+	  AND u.cookie_user_num <![CDATA[<=]]> #{upCookieNum} 
+</if>
+<!-- 数据范围条件过滤 IP -->
+<if test="downIpNum !=null and downIpNum != -1">
+	  AND u.ip_user_num >= #{downIpNum} 
+</if>
+<if test="upIpNum !=null and upIpNum !=-1">
+	  AND u.ip_user_num <![CDATA[<=]]> #{upIpNum} 
+</if>
+<!-- 数据范围条件过滤 FingerPrint -->
+<if test="downFpNum !=null and downFpNum != -1">
+	  AND u.fp_user_num >= #{downFpNum} 
+</if>
+<if test="upFpNum !=null and upFpNum != -1">
+	  AND u.fp_user_num <![CDATA[<=]]> #{upFpNum} 
+</if>
+<!-- 数据范围条件过滤 DeviceId -->
+<if test="downDevIdNum !=null and downDevIdNum != -1">
+	  AND u.device_user_num >= #{downDevIdNum} 
+</if>
+<if test="upDevIdNum !=null and upDevIdNum != -1">
+	  AND u.device_user_num <![CDATA[<=]]> #{upDevIdNum} 
+</if>
+<!-- 数据范围条件过滤 SequentBankCard -->
+<if test="downSequnetCardNum !=null and downSequnetCardNum != -1">
+	  AND u.sequnt_card_num >= #{downSequnetCardNum} 
+</if>
+<if test="upSequnetCardNum !=null and upSequnetCardNum != -1">
+	  AND u.sequnt_card_num <![CDATA[<=]]> #{upSequnetCardNum} 
+</if>
+<!-- 数据范围条件过滤 BankCardNum -->
+<if test="downCardNum !=null and downCardNum != -1">
+	  AND u.card_num >= #{downCardNum} 
+</if>
+<if test="upCardNum !=null and upCardNum != -1">
+	  AND u.card_num <![CDATA[<=]]> #{upCardNum} 
+</if>
+<!-- 数据范围条件过滤 PresentNum -->
+<if test="downPresentNum !=null and downPresentNum != -1">
+	  AND u.present_user_num >= #{downPresentNum} 
+</if>
+<if test="upPresentNum !=null and upPresentNum != -1">
+	  AND u.present_user_num <![CDATA[<=]]> #{upPresentNum} 
+</if>
+<!-- 排序 -->
+<choose>
+	<when test="sort != null and sort != ''">
+	order by ${sort}
+	</when>
+	<otherwise>
+	order by b.create_time DESC 
+	</otherwise>
+</choose>
+<if test="start !=null and length != null">
+limit ${start},${length}
+</if>
+  </select>
+  <select id="countRegistUserAnalyseStat" resultType="Integer" parameterType="java.util.Map">
+SELECT COUNT(*) 
+FROM
+(
+SELECT u.user_id AS userId,
+	   u.user_name AS username,
+	   u.is_client AS isClient,
+	   u.user_type AS userType,
+	   u.presenter_id AS presenterId,
+	   u.present_user_num AS presentUserNum,
+	   u.create_time AS registDate,
+	   u.cookie_user_num AS cookieUserNum,
+	   u.ip_user_num AS ipUserNum,
+	   u.fp_user_num AS fingerPrintUserNum,
+	   u.device_user_num AS deviceUserNum,
+	   u.depart_id AS departmentId,
+	   u.depart_name AS departmentName,
+	   u.spread_type_id AS spreadTypeId,
+	   u.spread_type_name AS spreadTypeName,
+	   u.district_id AS districtId,
+	   u.district_name AS districtName,
+	   u.bank,
+	   u.sub_bank AS subBank,
+	   u.card_num AS cardNum,
+	   u.sequnt_card_num AS sequentCardCount,
+	   u.card_count AS cardCount,
+	   u.sync_group AS syncGroup
+FROM dw.sync_register_user_stat u 
+WHERE u.create_time >= #{startDate} AND u.create_time <![CDATA[<]]> DATE_ADD(#{endDate},INTERVAL 1 DAY)  
+<!-- 部门选择条件过滤 -->
+<if test="channelId !=null and channelId !=-1">
+	  AND u.depart_id = #{channelId} 
+</if>
+<if test="spreadTypeId !=null and spreadTypeId !=-1">
+	  AND u.spread_type_id = #{spreadTypeId} 
+</if>
+<if test="districtId !=null and districtId !=-1">
+	  AND u.district_id = #{districtId} 
+</if>
+<!-- 推荐人ID -->
+<if test="presentUserId !=null and presentUserId != -1">
+	  AND u.presenter_id = #{presentUserId} 
+</if>
+<!-- 数据范围条件过滤 Cookie -->
+<if test="downCookieNum !=null and downCookieNum != -1">
+	  AND u.cookie_user_num >= #{downCookieNum} 
+</if>
+<if test="upCookieNum!=null and upCookieNum != -1">
+	  AND u.cookie_user_num <![CDATA[<=]]> #{upCookieNum} 
+</if>
+<!-- 数据范围条件过滤 IP -->
+<if test="upIpNum !=null and upIpNum !=-1">
+	  AND u.ip_user_num <![CDATA[<=]]> #{upIpNum} 
+</if>
+<if test="downIpNum !=null and downIpNum != -1">
+	  AND u.ip_user_num >= #{downIpNum} 
+</if>
+<!-- 数据范围条件过滤 FingerPrint -->
+<if test="downFpNum !=null and downFpNum != -1">
+	  AND u.fp_user_num >= #{downFpNum} 
+</if>
+<if test="upFpNum !=null and upFpNum != -1">
+	  AND u.fp_user_num <![CDATA[<=]]> #{upFpNum} 
+</if>
+<!-- 数据范围条件过滤 DeviceId -->
+<if test="downDevIdNum !=null and downDevIdNum != -1">
+	  AND u.device_user_num >= #{downDevIdNum} 
+</if>
+<if test="upDevIdNum !=null and upDevIdNum != -1">
+	  AND u.device_user_num <![CDATA[<=]]> #{upDevIdNum} 
+</if>
+<!-- 数据范围条件过滤 BankCard -->
+<if test="downSequnetCardNum !=null and downSequnetCardNum != -1">
+	  AND u.sequnt_card_num >= #{downSequnetCardNum} 
+</if>
+<if test="upSequnetCardNum !=null and upSequnetCardNum != -1">
+	  AND u.sequnt_card_num <![CDATA[<=]]> #{upSequnetCardNum} 
+</if>
+<!-- 数据范围条件过滤 BankCardNum -->
+<if test="downCardNum !=null and downCardNum != -1">
+	  AND u.card_num >= #{downCardNum} 
+</if>
+<if test="upCardNum !=null and upCardNum != -1">
+	  AND u.card_num <![CDATA[<=]]> #{upCardNum} 
+</if>
+<!-- 数据范围条件过滤 PresentNum -->
+<if test="downPresentNum !=null and downPresentNum != -1">
+	  AND u.present_user_num >= #{downPresentNum} 
+</if>
+<if test="upPresentNum !=null and upPresentNum != -1">
+	  AND u.present_user_num <![CDATA[<=]]> #{upPresentNum} 
+</if>
+)d
+  </select>
+
+</mapper>

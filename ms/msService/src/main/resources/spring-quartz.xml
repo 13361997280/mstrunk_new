@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-lazy-init="false">
+    <!-- 调度器 -->
+    <bean name="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!-- 通过applicationContextSchedulerContextKey属性配置spring上下文 -->
+        <property name="applicationContextSchedulerContextKey">
+            <value>applicationContext</value>
+        </property>
+        <property name="jobFactory" ref="jobFactory"></property>
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean id="jobFactory" class="com.qianwang.service.quartz.JobFactory"></bean>
+    <!--加载可执行的任务-->
+    <bean id="loadTask" class="com.qianwang.service.quartz.LoadTask" init-method="initTask" />
+</beans>

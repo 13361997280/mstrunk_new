@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<!--<generatorConfiguration >-->
+  <!--<context id="context1" >-->
+  <!--<jdbcConnection driverClass="/Users/songjie/.m2/repository/mysql/mysql-connector-java/5.1.26/mysql-connector-java-5.1.26.jar" connectionURL="jdbc:mysql://127.0.0.1:3306/dc" userId="root" password="root" />-->
+  <!--<javaModelGenerator targetPackage="com.qianwang.dao.domain.news.entity" targetProject="src/main/java"/>-->
+  <!--<sqlMapGenerator targetPackage="com.qianwang.dao.domain.news.mapper" targetProject="src/main/java"/>-->
+  <!--<javaClientGenerator targetPackage="com.qianwang.mapper.news" targetProject="src/main/java" type="XMLMAPPER"/>-->
+  <!--<table tableName="light_trader_dx_stat_day" enableCountByExample="false"-->
+         <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+         <!--enableUpdateByExample="false">-->
+  <!--</table>-->
+<!--</context>-->
+<!--</generatorConfiguration>-->
+
+
+<generatorConfiguration>
+    <classPathEntry
+            location="/Users/songjie/.m2/repository/mysql/mysql-connector-java/5.1.26/mysql-connector-java-5.1.26.jar"/>
+    <context id="DB2Tables">
+
+        <property name="autoDelimitKeywords" value="true"></property>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.14.107:3306/ms"
+                        userId="canal" password="canal">
+        </jdbcConnection>
+        <!--<javaTypeResolver>-->
+            <!--<property name="forceBigDecimals" value="true"/>-->
+        <!--</javaTypeResolver>-->
+
+        <javaModelGenerator targetPackage="com.qianwang.dao.domain" targetProject="src/main/java">
+            <!--<property name="enableSubPackages" value="true"/>-->
+            <!--<property name="trimStrings" value="true"/>-->
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <!--<property name="enableSubPackages" value="true"/>-->
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.qianwang.mapper"
+                             targetProject="src/main/java">
+            <!--<property name="enableSubPackages" value="true"/>-->
+        </javaClientGenerator>
+        <table tableName="property_table" domainObjectName="PropertyTable"
+               enableCountByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+        >
+        </table>
+    </context>
+</generatorConfiguration>

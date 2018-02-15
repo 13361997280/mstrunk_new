@@ -1,0 +1,168 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<meta name ="viewport" content ="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<!--<link rel="stylesheet" href="/build/h5/0/css/main.css"/>-->
+<link rel="stylesheet" href="/build/h5/0/css/main.css"/>
+<link rel="stylesheet" href="/build/h5/0/css/zepto.fullpage.css"/>
+<script type="text/javascript" src="/build/h5/0/js/zepto.js"></script>
+<script type="text/javascript" src="/build/h5/0/js/zepto.fullpage.js"></script>
+<!--<script type="text/javascript" src="/build/h5/0/js/jquery-1.11.1.min.js"></script>-->
+<!--<script type="text/javascript" src="/build/h5/0/js/jquery.touchSwipe.min.js"></script>-->
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+    var token;
+    var oHtml="";
+    var shareTitle;
+    var imgUrl;
+    var descContent;
+    var url;
+    $(document).ready(function() {
+                $('.container').on('click',function () {
+                    window.open(url)
+                });
+
+                var ourl=window.location.href;
+                var mid=ourl.split('h5')[1].split('/')[1];
+                $.getJSON("/h5/getShortContent.do?mid="+mid,
+                        function(data){
+                            var json=JSON.parse(data.data.shortContent);
+                            shareTitle = data.data.title;
+                            imgUrl = data.data.logo;
+                            descContent = data.data.content;
+                            url=data.data.link;
+                            console.log(shareTitle,imgUrl,descContent,url,19003)
+                            $.each(json,function(i,e){
+                                    oHtml+='<div class="page">\
+                                       \<img src="'+e.url+'" />\
+                                       \ <div><span>"'+e.txt+'"</span></div>\
+                                       \ </div>'
+                            })
+                            $('.container').html(oHtml).fullpage({
+                                change: function (e) {
+                                    // 移除动画属性
+                                    $('.page').eq(e.cur).find('.js-animate').each(function() {
+                                        $(this).removeClass($(this).data('animate')).hide();
+                                    });
+                                },
+                                afterChange: function (e) {
+                                    // 添加动画属性
+                                    $('.page').eq(e.cur).find('.js-animate')
+                                        .each(function () {
+                                            $(this).addClass($(this).data('animate')).show();
+                                        });
+                                }
+                            })
+
+                            $.ajax({
+                                type:'GET',
+                                url:'/wechat/token.do',
+                                data:{url:ourl},
+                                success:function(data){
+                                    var oData=JSON.parse(data).data;
+                                    console.log(oData)
+                                    wx.config({
+                                        appId: oData.appid,
+                                        timestamp:oData.timestamp ,
+                                        nonceStr:oData.noncestr ,
+                                        signature:oData.signature ,
+                                        jsApiList: [
+                                            'onMenuShareTimeline',
+                                            'onMenuShareAppMessage',
+                                            'onMenuShareQQ',
+                                            'onMenuShareWeibo',
+                                            'onMenuShareQZone'
+                                        ]
+                                    });
+
+                                    wx.ready(function() {
+                                        wx.onMenuShareTimeline({
+                                            title: shareTitle, // 分享标题
+                                            imgUrl:imgUrl, // 分享图标
+                                            link:ourl,
+                                            success: function() {
+                                                // 用户确认分享后执行的回调函数
+                                            },
+                                            cancel: function() {
+                                                // 用户取消分享后执行的回调函数
+                                            }
+                                        });
+
+                                        wx.onMenuShareAppMessage({
+                                            title: shareTitle, // 分享标题
+                                            desc: descContent, // 分享描述
+                                            imgUrl: imgUrl, // 分享图标
+                                            link:ourl,
+                                            success: function() {
+                                                // 用户shareTitle确认分享后执行的回调函数
+                                            },
+                                            cancel: function() {
+                                                // 用户取消分享后执行的回调函数
+                                            }
+                                        });
+
+                                        wx.onMenuShareQQ({
+                                            title: shareTitle, // 分享标题
+                                            desc: descContent, // 分享描述
+                                            link: ourl, // 分享链接
+                                            imgUrl: imgUrl, // 分享图标
+                                            success: function () {
+                                                // 用户确认分享后执行的回调函数
+                                            },
+                                            cancel: function () {
+                                                // 用户取消分享后执行的回调函数
+                                            }
+                                        });
+
+                                        wx.onMenuShareWeibo({
+                                            title: shareTitle, // 分享标题
+                                            desc: descContent, // 分享描述
+                                            link: ourl, // 分享链接
+                                            imgUrl: imgUrl, // 分享图标
+                                            success: function () {
+                                                // 用户确认分享后执行的回调函数
+                                            },
+                                            cancel: function () {
+                                                // 用户取消分享后执行的回调函数
+                                            }
+                                        });
+
+                                        wx.onMenuShareQZone({
+                                            title: shareTitle, // 分享标题
+                                            desc: descContent, // 分享描述
+                                            link: ourl, // 分享链接
+                                            imgUrl: imgUrl, // 分享图标
+                                            success: function () {
+                                                // 用户确认分享后执行的回调函数
+                                            },
+                                            cancel: function () {
+                                                // 用户取消分享后执行的回调函数
+                                            }
+                                        });
+                                    });
+                                }
+                            })
+
+
+                });
+            } );
+
+
+
+
+
+
+</script>
+
+</head>
+<body onmousewheel="return false;">
+<div class="container">
+
+</div>
+
+<div class="xiangxiatishi" ></div>
+
+</body>
+ </html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.mapper.authority.MenuMapper">
+	 
+	<!--查询权限记录信息 -->
+	<select id="findChildMenus" resultType="menu" parameterType="long">
+		SELECT 
+			id as id,
+			text as text,
+			url as url,
+			parent_id as parentId,
+			leaf as leaf,
+			sort as sort
+		FROM dc.menu
+		where menu.parent_id = #{parentId} 
+		order by sort
+	</select> 
+	
+	<!--新增菜单信息 -->
+	<insert id="addMenu" parameterType="menu" keyProperty="id">
+		insert INTO menu ( 
+			id,
+			text,
+			url,
+			parent_id,
+			leaf,
+			sort
+		)values (
+			#{id},
+			#{text},
+			#{url},
+			#{parentId},
+			#{leaf},
+			#{sort}
+		)
+	</insert> 
+	
+		<!--查询权限记录信息 -->
+	<select id="hasMenus" resultType="int" parameterType="string">
+		SELECT 
+			count(*)
+		FROM dc.menu where menu.url like '%${value}%' 
+	</select> 
+	
+		<!--查询权限记录信息 -->
+	<select id="countChildMenus" resultType="long" parameterType="long">
+		SELECT 
+			count(id)
+		FROM dc.menu where menu.parent_id = #{parentId} 
+	</select>
+	
+	<!--修改菜单信息 -->
+	<update id="updateMenuLeaf" parameterType="java.util.Map">
+		update dc.menu set leaf = #{leaf} where id = #{id} 
+	</update> 
+	
+	<!--修改菜单信息 -->
+	<update id="updateMenu" parameterType="menu">
+		update menu set text = #{text},url = #{url},sort = #{sort} where id = #{id}
+	</update> 
+	
+	<!--根据菜单id删除菜单 -->
+	<delete id="deleteMenu" parameterType="int">
+		delete from menu where id = #{id}
+	</delete> 
+	
+	<!-- 根据权限编码查询菜单树 -->
+	<select id="findMenuTreeByAuthority" parameterType="string" resultType="menu">
+		SELECT 
+			m.id as id,
+			m.text as text,
+			m.url as url,
+			m.parent_id as parentId,
+			m.leaf as leaf,
+			sort as sort,
+			true as loaded,
+			case when ma.menu_id is not null then true else false end as checked
+		FROM menu m
+		LEFT JOIN menu_authority ma ON ma.menu_id = m.id and ma.authority_code = #{authorityCode}
+		order by m.sort
+	</select> 
+	
+		<!-- 根据菜单Id删除权限关系 -->
+	<delete id="deleteMenuAuthorityByMenu" parameterType="long">
+		delete from menu_authority where menu_id = #{menuId}
+	</delete> 
+	
+		<!-- 根据权限编码删除菜单关系 -->
+	<delete id="deleteMenuAuthorityByAuthority" parameterType="string">
+		delete from menu_authority where authority_code = #{authorityCode}
+	</delete> 
+	
+		<!-- 保存菜单权限关系 -->
+	<insert id="saveMenuAuthority" parameterType="menuAuthority">
+		insert INTO menu_authority (
+			menu_id,
+			authority_code
+		)values (
+			#{menuId},
+			#{authorityCode}
+		)
+	</insert> 
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.mapper.assistant.UserSubscriptionMapper">
+    <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.assistant.UserSubscriptionDataAssistant">
+        <result column="user_id" property="userId" jdbcType="INTEGER"></result>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"></result>
+        <result column="firstSubsciptTime" property="firstSubscriptionDate" jdbcType="TIMESTAMP"></result>
+        <result column="create_time" property="subscriptionDate" jdbcType="TIMESTAMP"></result>
+        <result column="pay_type" property="payType" jdbcType="INTEGER"></result>
+        <result column="payCost" property="payCost" jdbcType="BIGINT"></result>
+        <result column="payTypeDesc" property="payTypeDesc" jdbcType="VARCHAR"></result>
+        <result column="penalties" property="penalties" jdbcType="INTEGER"></result>
+    </resultMap>
+
+    <resultMap id="NoSubscription" type="com.qianwang.dao.domain.assistant.UserLastSubscriptionDataAssistant">
+        <result column="user_id" property="userId" jdbcType="INTEGER"></result>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"></result>
+        <result column="pay_time" property="lastSubscriptionDate" jdbcType="TIMESTAMP"></result>
+        <result column="payTypeDesc" property="payTypeDesc" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <select id="getUserSubscriptionCount" resultType="INTEGER" parameterType="java.util.Map">
+        select count(1) cnt FROM
+        (
+        SELECT
+        o.user_id,
+        max(o.pay_time) as create_time
+        FROM ass_order as o
+        INNER JOIN ass_pay_type as p
+        ON o.user_id = p.user_id
+        LEFT JOIN  ass_config_user_cost as c
+        ON o.user_id = c.user_id
+        LEFT JOIN ass_config_user_reorder as r
+        ON o.user_id = r.user_id
+        where o.pay_time IS NOT NULL
+        <if test="userId != null and userId != -1">
+            AND o.user_id = #{userId}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND o.user_name = #{userName}
+        </if>
+        <if test="startDate != '' and startDate != null">
+            AND o.pay_time >= #{startDate}
+        </if>
+        <if test="endDate != '' and endDate != null">
+            AND  #{endDate} >= o.pay_time
+        </if>
+
+        <if test="payType != -1 and payType != null">
+            <choose>
+                <when test="payType == 600 ">
+                    and o.total_amt = #{payType} and p.pay_type=0  AND  1 > IFNULL(r.acc_num,0)
+                </when>
+                <when test="payType == 100 or payType == 200 or payType == 300 or payType == 400 or payType == 500">
+                    and c.cost = #{payType} and p.pay_type=0  AND  1 > IFNULL(r.acc_num,0)
+                </when>
+                <when test="payType > 600">
+                    and r.acc_num > 0
+                </when>
+                <otherwise>
+                    AND p.pay_type = #{payType} and  601 > o.total_amt and  c.cost is NULL
+                </otherwise>
+            </choose>
+        </if>
+        group by o.user_id
+        ) as C
+
+    </select>
+    <select id="getUserSubscripionInfos" resultMap="BaseResultMap" parameterType="java.util.Map">
+        <if test="payType == 0">
+            SELECT
+            o.user_id,
+            o.user_name,
+            o.create_time as firstSubsciptTime,
+            max(o.pay_time) as create_time,
+            o.total_amt as payCost,
+            case when r.acc_num > 0 then 'P'
+            else
+            case when c.cost is not null then CONCAT('W',cast(c.cost as CHAR)) ELSE CAST(p.pay_type AS CHAR)
+            END
+            end as payTypeDesc,
+            r.unit_amt * r.acc_num as penalties
+            FROM ass_order as o
+            INNER JOIN ass_pay_type as p
+            ON o.user_id = p.user_id
+            LEFT JOIN  ass_config_user_cost as c
+            ON o.user_id = c.user_id
+            LEFT JOIN ass_config_user_reorder as r
+            ON o.user_id = r.user_id
+            where o.pay_time IS NOT NULL and p.pay_type = 0  AND  1 > IFNULL(r.acc_num,0)
+            <if test="userId != null and userId != -1">
+                AND o.user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND o.user_name = #{userName}
+            </if>
+            <if test="startDate != '' and startDate != null">
+                AND o.pay_time >= #{startDate}
+            </if>
+            <if test="endDate != '' and endDate != null">
+                AND  #{endDate} >= o.pay_time
+            </if>
+            group by o.user_id
+            order by o.pay_time DESC
+            <if test="length != 0">
+                limit #{start},#{length}
+            </if>
+        </if>
+        <if test="payType != 0">
+            SELECT
+            o.user_id,
+            o.user_name,
+            o.create_time as firstSubsciptTime,
+            max(o.pay_time) as create_time,
+            o.total_amt as payCost,
+            case when r.acc_num > 0 then 'P'
+            else
+            case when c.cost is not null then CONCAT('W',cast(c.cost as CHAR)) ELSE CAST(p.pay_type AS CHAR)
+            END
+            end as payTypeDesc,
+            r.unit_amt * r.acc_num as penalties
+            FROM ass_order as o
+            INNER JOIN ass_pay_type as p
+            ON o.user_id = p.user_id
+            LEFT JOIN  ass_config_user_cost as c
+            ON o.user_id = c.user_id
+            LEFT JOIN ass_config_user_reorder as r
+            ON o.user_id = r.user_id
+            where o.pay_time IS NOT NULL
+            <if test="userId != null and userId != -1">
+                AND o.user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND o.user_name = #{userName}
+            </if>
+            <if test="startDate != '' and startDate != null">
+                AND o.pay_time >= #{startDate}
+            </if>
+            <if test="endDate != '' and endDate != null">
+                AND  #{endDate} >= o.pay_time
+            </if>
+
+            <if test="payType != -1 and payType != null">
+                <choose>
+                    <when test="payType == 600 ">
+                        and o.total_amt = #{payType} and p.pay_type=0  AND  1 > IFNULL(r.acc_num,0)
+                    </when>
+                    <when test="payType == 100 or payType == 200 or payType == 300 or payType == 400 or payType == 500">
+                        and c.cost = #{payType} and p.pay_type=0  AND  1 > IFNULL(r.acc_num,0)
+                    </when>
+                    <when test="payType > 600">
+                        and r.acc_num > 0
+                    </when>
+                    <otherwise>
+                        AND p.pay_type = #{payType} and  601 > o.total_amt and  c.cost is NULL
+                    </otherwise>
+                </choose>
+            </if>
+            group by o.user_id
+            order by o.pay_time DESC
+            <if test="length != 0">
+                limit #{start},#{length}
+            </if>
+        </if>
+    </select>
+    <select id="getUserLastSubscripionInfos" resultMap="NoSubscription" parameterType="java.util.Map">
+        SELECT h.user_id,
+        h.user_name,
+        IFNULL(case when o.user_id is null then h.pay_time else o.pay_time end,h.pay_time) as pay_time,
+        case when r.acc_num > 0 then 'P'
+        else
+        case when c.cost is not null then CONCAT('W',cast(c.cost as CHAR)) ELSE CAST(p.pay_type AS CHAR)
+        END
+        end as payTypeDesc
+        from
+        (
+        select user_id,user_name,max(pay_time) as pay_time  from ass_order_history group by user_id
+        )
+        as h
+        LEFT JOIN ass_order as o
+        on h.user_id = o.user_id
+        INNER JOIN ass_pay_type as p
+        ON h.user_id = p.user_id
+        LEFT JOIN  ass_config_user_cost as c
+        ON h.user_id = c.user_id
+        LEFT JOIN ass_config_user_reorder as r
+        ON h.user_id = r.user_id
+        where  h.pay_time is NOT NULL
+        <if test="userId != null and userId != -1">
+            AND h.user_id = #{userId}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND h.user_name = #{userName}
+        </if>
+        <if test="startDate != '' and startDate != null">
+            AND h.pay_time >= #{startDate}
+        </if>
+        <if test="endDate != '' and endDate != null">
+            AND  #{endDate} >= h.pay_time
+        </if>
+        <if test="payType != -1 and payType != null">
+            <choose>
+                <when test="payType == 600 ">
+                    and h.total_amt = #{payType} and p.pay_type=0 AND  1 > IFNULL(r.acc_num,0)
+                </when>
+                <when test="payType == 100 or payType == 200 or payType == 300 or payType == 400 or payType == 500">
+                    and c.cost = #{payType} and p.pay_type=0 AND  1 > IFNULL(r.acc_num,0)
+                </when>
+                <when test="payType > 600">
+                    and r.acc_num > 0
+                </when>
+                <otherwise>
+                    AND p.pay_type = #{payType} AND  1 > IFNULL(r.acc_num,0)
+                </otherwise>
+            </choose>
+        </if>
+        order by o.pay_time DESC
+        <if test="length != 0">
+            limit #{start},#{length}
+        </if>
+    </select>
+
+</mapper>

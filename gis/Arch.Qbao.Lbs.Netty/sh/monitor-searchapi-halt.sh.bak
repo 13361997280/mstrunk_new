@@ -1,0 +1,6 @@
+#!/bin/bash
+. env.sh
+
+. ${bin_path}/stop.sh monitor-dyonline
+
+ps -ef |grep monitor-dyonline

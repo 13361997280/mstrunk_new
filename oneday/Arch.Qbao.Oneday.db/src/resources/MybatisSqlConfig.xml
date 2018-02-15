@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.qbao.dao"/>
+    </typeAliases>
+
+    <environments default="oneday">
+        <environment id="oneday">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="com.qbao.config.DruidDataSourceFactory">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="${db.oneday.connection}"/>
+                <property name="username" value="${db.oneday.user}"/>
+                <property name="password" value="${db.oneday.pass}"/>
+                <property name="maxActive" value="50"/>
+                <property name="minIdle" value="5" />
+                <property name="initialSize" value="5"/>
+                <property name="maxWait" value="60000" />
+                <property name="minEvictableIdleTimeMillis" value="300000"/>
+                <property name="validationQuery" value="SELECT now() "/>
+                <property name="testWhileIdle" value="true"/>
+                <property name="testOnBorrow" value="false"/>
+                <property name="testOnReturn" value="false"/>
+            </dataSource>
+        </environment>
+        <!--<environment id="bigdata">-->
+        <!--<transactionManager type="JDBC"></transactionManager>-->
+        <!--<dataSource type="POOLED">-->
+        <!--<property name="driver" value="${jdbc.driver}"/>-->
+        <!--<property name="url" value="${data.jdbc.url}"/>-->
+        <!--<property name="username" value="${data.jdbc.username}"/>-->
+        <!--<property name="password" value="${data.jdbc.password}"/>-->
+        <!--</dataSource>-->
+        <!--</environment>-->
+    </environments>
+
+    <mappers>
+        <mapper resource="com/qbao/dao/mapper/AdvertisementMapper.xml"/>
+    </mappers>
+</configuration>
+
+

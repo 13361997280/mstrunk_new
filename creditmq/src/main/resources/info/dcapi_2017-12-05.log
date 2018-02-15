@@ -1,0 +1,44 @@
+2017-12-05 09:28:15 [INFO] - Starting Application on yinchongyangs-MacBook-Pro.local with PID 1932 (/Users/yinchongyang/work/dcapi/trunk/target/classes started by yinchongyang in /Users/yinchongyang/work/dcapi/trunk)
+2017-12-05 09:28:15 [INFO] - No active profile set, falling back to default profiles: default
+2017-12-05 09:28:15 [INFO] - HV000001: Hibernate Validator 5.2.2.Final
+2017-12-05 09:28:15 [INFO] - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6293abcc: startup date [Tue Dec 05 09:28:15 CST 2017]; root of context hierarchy
+2017-12-05 09:28:16 [INFO] - Overriding bean definition for bean 'beanNameViewResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter.class]]
+2017-12-05 09:28:16 [INFO] - Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [class org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$261ef0e9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-12-05 09:28:16 [INFO] - Bean 'redisConfig' of type [class com.qbao.creditmq.RedisConfig$$EnhancerBySpringCGLIB$$1e25420e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-12-05 09:28:16 [INFO] - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$1cb7607b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-12-05 09:28:16 [INFO] - Bean 'org.springframework.cache.annotation.ProxyCachingConfiguration' of type [class org.springframework.cache.annotation.ProxyCachingConfiguration$$EnhancerBySpringCGLIB$$84152ad9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-12-05 09:28:16 [INFO] - Tomcat initialized with port(s): 8080 (http)
+2017-12-05 09:28:16 [INFO] - Starting service Tomcat
+2017-12-05 09:28:16 [INFO] - Starting Servlet Engine: Apache Tomcat/7.0.62
+2017-12-05 09:28:17 [INFO] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2017-12-05 09:28:17 [INFO] - Initializing Spring embedded WebApplicationContext
+2017-12-05 09:28:17 [INFO] - Root WebApplicationContext: initialization completed in 1562 ms
+2017-12-05 09:28:17 [INFO] - Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-05 09:28:17 [INFO] - Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-05 09:28:17 [INFO] - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-05 09:28:17 [INFO] - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-05 09:28:17 [INFO] - Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-05 09:28:17 [INFO] - Trying to find master from available Sentinels...
+2017-12-05 09:28:17 [INFO] - Redis master running at 192.168.14.38:6379, starting Sentinel listeners...
+2017-12-05 09:28:17 [INFO] - Created JedisPool to master at 192.168.14.38:6379
+2017-12-05 09:28:17 [INFO] - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6293abcc: startup date [Tue Dec 05 09:28:15 CST 2017]; root of context hierarchy
+2017-12-05 09:28:17 [INFO] - Mapped "{[/redis/**/test]}" onto public java.lang.Object com.qbao.creditmq.controller.RedisTestController.signConfigInfo(java.lang.String)
+2017-12-05 09:28:17 [INFO] - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-12-05 09:28:17 [INFO] - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-12-05 09:28:17 [INFO] - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-05 09:28:17 [INFO] - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-05 09:28:17 [INFO] - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-05 09:28:17 [WARN] - Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2017-12-05 09:28:18 [INFO] - Registering beans for JMX exposure on startup
+2017-12-05 09:28:18 [INFO] - Starting beans in phase 2147483647
+2017-12-05 09:28:18 [INFO] - Created new connection: SimpleConnection@53fad5d6 [delegate=amqp://guest@192.168.132.159:5672/]
+2017-12-05 09:28:18 [INFO] - Initializing ProtocolHandler ["http-nio-8080"]
+2017-12-05 09:28:18 [INFO] - Starting ProtocolHandler ["http-nio-8080"]
+2017-12-05 09:28:18 [INFO] - Using a shared selector for servlet write/read
+2017-12-05 09:28:18 [INFO] - Tomcat started on port(s): 8080 (http)
+2017-12-05 09:28:18 [INFO] - Started Application in 3.426 seconds (JVM running for 4.273)
+2017-12-05 09:28:43 [INFO] - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6293abcc: startup date [Tue Dec 05 09:28:15 CST 2017]; root of context hierarchy
+2017-12-05 09:28:43 [INFO] - Stopping beans in phase 2147483647
+2017-12-05 09:28:43 [INFO] - Waiting for workers to finish.
+2017-12-05 09:28:43 [INFO] - Successfully waited for workers to finish.
+2017-12-05 09:28:43 [INFO] - Unregistering JMX-exposed beans on shutdown

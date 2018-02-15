@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.credit.dao.ConfTaskSetDAO">
+
+	<resultMap type="com.qianwang.credit.entity.ConfTaskSet" id="ConfTaskSet">
+		<result property="id" column="id" />
+		<result property="onedayScore" column="oneday_score" />
+		<result property="totalScore" column="total_score" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="operator" column="operator" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		id,oneday_score,total_score,create_time,update_time,operator,status
+	</sql>
+
+	<sql id="simple_where" >
+		where 1=1
+		<if test="id!=null"> and id=#{id}</if>
+		<if test="onedayScore!=null"> and oneday_score=#{onedayScore}</if>
+		<if test="totalScore!=null"> and total_score=#{totalScore}</if>
+		<if test="createTime!=null"> and create_time &gt;= #{createTime}</if>
+		<if test="updateTime!=null"> and update_time &lt;= #{updateTime}</if>
+		<if test="operator!=null and operator!=''"> and operator=#{operator}</if>
+		<if test="status!=null"> and status=#{status}</if>
+		<!--<if test="onedayScore!=null and onedayScore!=''"> and oneday_score like '%#{onedayScore}%'</if>-->
+
+	</sql>
+
+	<select id="firstQuery" resultMap="ConfTaskSet">
+		select
+			<include refid="Base_Column_List" />
+		from conf_task_set where status = 0
+	</select>
+
+	<sql id="simple_query" >
+		select
+		<include refid="Base_Column_List" />
+		from conf_task_set where status = 1
+	</sql>
+
+	<select id="pageQuery" resultMap="ConfTaskSet">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryList" resultMap="ConfTaskSet">
+		<include refid="simple_query" />
+		<if test="orderBy!=null and orderBy!=''">
+			order by #{orderBy} <if test="!asc">desc</if>
+		</if>
+	</select>
+
+	<select id="queryCount" resultType="long">
+		select count(1) 
+		from conf_task_set where status = 0
+	</select>
+
+	<select id="findById" resultMap="ConfTaskSet">
+		select
+			<include refid="Base_Column_List" />
+		from conf_task_set
+			where id=#{id}
+	</select>
+
+	<insert id="save">
+		insert into conf_task_set (
+			oneday_score,total_score,create_time,update_time,operator,status
+		)values(
+			#{onedayScore},#{totalScore},#{createTime},#{updateTime},#{operator},#{status}
+		)
+	</insert>
+	
+	<update id="update">
+		update 
+			conf_task_set
+		set 
+			status=#{status},update_time=#{updateTime}
+		where 
+			id=#{id}
+	</update>
+
+	<delete id="delete">
+        delete from conf_task_set where id=#{id}
+    </delete>
+	
+</mapper>

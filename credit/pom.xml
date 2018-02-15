@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.qbao.search</groupId>
+	<artifactId>credit</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<description>credit</description>
+	<name>credit</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.build.timestamp.format>yyyy_MM_dd_HH_mm_ss</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<deploy.dir>../deploy</deploy.dir>
+		<deploy.dir.jar>${deploy.dir}/target</deploy.dir.jar>
+		<deploy.dir.lib>${deploy.dir}/lib</deploy.dir.lib>
+		<version.dir>${deploy.dir}/qbao_ms_deploy_${timestamp}</version.dir>
+		<version.dir.bin>${version.dir}/bin</version.dir.bin>
+		<version.dir.conf>${version.dir}/conf/qbao</version.dir.conf>
+		<version.dir.lib>${version.dir}/lib</version.dir.lib>
+		<file.upload>common</file.upload>
+	</properties>
+
+	<modules>
+		<module>creditNetty</module>
+		<module>creditCommon</module>
+		<module>creditMysql</module>
+    </modules>
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>3.8.1</version>
+				<scope>compile</scope>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.microsoft.sqlserver</groupId>
+				<artifactId>sqljdbc</artifactId>
+				<version>4.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.25</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.fusesource</groupId>
+				<artifactId>sigar</artifactId>
+				<version>1.6.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.mail</groupId>
+				<artifactId>javax.mail</artifactId>
+				<version>1.4.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.netty</groupId>
+				<artifactId>netty</artifactId>
+				<version>3.2.2.Final</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sourceforge.pinyin4j</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>2.5.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.jcraft</groupId>
+				<artifactId>jsch</artifactId>
+				<version>0.1.49</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>2.4.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+
+
+	<build>
+		<sourceDirectory>${basedir}/src</sourceDirectory>
+		<finalName>${project.artifactId}</finalName>
+   </build>
+
+</project>
+

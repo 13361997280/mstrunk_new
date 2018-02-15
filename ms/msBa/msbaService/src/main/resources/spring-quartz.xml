@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<bean id="esDataInputBean" class="com.qianwang.service.job.EsDataInputJob"></bean>
+
+	<bean id="lbsDataInputTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="esDataInputBean" />
+		<property name="targetMethod" value="lbsDataInput" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="touTiaoDataInputTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="esDataInputBean" />
+		<property name="targetMethod" value="touTiaoDataInput" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="qbaoLogDataInputTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="esDataInputBean" />
+		<property name="targetMethod" value="qbaoLogDataInput" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- lbs数据导入定时 -->
+	<bean id="lbsInput"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="lbsDataInputTask" />
+		<property name="cronExpression" value="0 15 * * * ?" />
+	</bean>
+
+	<!-- toutiao数据导入定时 -->
+	<bean id="toutiaoInput"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="touTiaoDataInputTask" />
+		<property name="cronExpression" value="0 1 0 * * ?" />
+	</bean>
+
+	<!-- qbaoLog数据导入定时 -->
+	<bean id="qbaoLogInput"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="qbaoLogDataInputTask" />
+		<property name="cronExpression" value="0 30 * * * ?" />
+	</bean>
+
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="lbsInput" />
+				<ref bean="toutiaoInput" />
+				<ref bean="qbaoLogInput" />
+			</list>
+		</property>
+	</bean>
+</beans>

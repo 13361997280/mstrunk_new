@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.QuartTaskMapper">
+    <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.QuartTask">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="message_id" property="messageId" jdbcType="INTEGER"/>
+        <result column="activity_id" property="activityId" jdbcType="INTEGER"/>
+        <result column="user_select_id" property="userSelectId" jdbcType="VARCHAR"/>
+        <result column="corn_time" property="cornTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, task_name, user_id, message_id, activity_id, user_select_id, corn_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from quartz_task
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultType="com.qianwang.dao.domain.QuartTask">
+      select * from quartz_task where enable = 1 and corn_time > now();
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from quartz_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.qianwang.dao.domain.QuartTask">
+    insert into quartz_task (id, task_name, user_id, 
+      message_id,activity_id,user_select_id, corn_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{messageId,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER}, #{userSelectId,jdbcType=VARCHAR}, #{cornTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.qianwang.dao.domain.QuartTask" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into quartz_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="taskName != null">
+                task_name,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="messageId != null">
+                message_id,
+            </if>
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="userSelectId != null">
+                user_select_id,
+            </if>
+            <if test="cornTime != null">
+                corn_time,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="taskName != null">
+                #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="messageId != null">
+                #{messageId,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="userSelectId != null">
+                #{userSelectId,jdbcType=VARCHAR},
+            </if>
+            <if test="cornTime != null">
+                #{cornTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.QuartTask">
+        update quartz_task
+        <set>
+            <if test="taskName != null">
+                task_name = #{taskName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="messageId != null">
+                message_id = #{messageId,jdbcType=INTEGER},
+            </if>
+            <if test="activityId != null">
+                activity_id = #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="userSelectId != null">
+                user_select_id = #{userSelectId,jdbcType=VARCHAR},
+            </if>
+            <if test="cornTime != null">
+                corn_time = #{cornTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.QuartTask">
+    update quartz_task
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      message_id = #{messageId,jdbcType=INTEGER},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      user_select_id = #{userSelectId,jdbcType=VARCHAR},
+      corn_time = #{cornTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

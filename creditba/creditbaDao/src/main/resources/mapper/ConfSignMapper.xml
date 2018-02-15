@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.credit.dao.ConfSignDAO">
+
+	<resultMap type="com.qianwang.credit.entity.ConfSign" id="ConfSign">
+		<result property="id" column="id" />
+		<result property="score" column="score" />
+		<result property="totalScoreLimit" column="total_score_limit" />
+		<result property="memo" column="memo" />
+		<result property="status" column="status" />
+		<result property="operator" column="operator" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		id,score,total_score_limit,memo,status,operator,create_time,update_time
+	</sql>
+
+	<sql id="simple_where" >
+		where 1=1
+		<if test="id!=null"> and id=#{id}</if>
+		<if test="score!=null"> and score=#{score}</if>
+		<if test="totalScoreLimit!=null"> and total_score_limit=#{totalScoreLimit}</if>
+		<if test="status!=null"> and status=#{status}</if>
+		<if test="createTimeStart!=null"> and create_time &gt;= #{createTimeStart}</if>
+		<if test="createTimeEnd!=null"> and create_time &lt;= #{createTimeEnd}</if>
+		<if test="updateTimeStart!=null"> and update_time &gt;= #{updateTimeStart}</if>
+		<if test="updateTimeEnd!=null"> and update_time &lt;= #{updateTimeEnd}</if>
+		<if test="keyword!=null and keyword!=''"> and memo like '%#{keyword}%'</if>
+	</sql>
+
+	<sql id="simple_query" >
+		select
+			<include refid="Base_Column_List" />
+		from conf_sign
+			<include refid="simple_where" />
+		<if test="orderBy!=null and orderBy!=''">
+			order by #{orderBy} <if test="!asc">desc</if>
+		</if>
+
+	</sql>
+
+	<select id="pageQuery" resultMap="ConfSign">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryList" resultMap="ConfSign">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryCount" resultType="long">
+		select count(1) 
+		from conf_sign
+		<include refid="simple_where" />
+	</select>
+
+	<select id="findById" resultMap="ConfSign">
+		select
+			<include refid="Base_Column_List" />
+		from conf_sign
+			where id=#{id}
+	</select>
+
+	<select id="getCurrentSign" resultMap="ConfSign">
+		select
+			<include refid="Base_Column_List" />
+		from conf_sign
+			where status=0
+	</select>
+
+	<insert id="save">
+		<selectKey resultType="integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into conf_sign (
+			score,total_score_limit,memo,status,operator,create_time,update_time
+		)values(
+			#{score},#{totalScoreLimit},#{memo},#{status},#{operator},#{createTime},#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update 
+			conf_sign
+		set 
+			score=#{score},total_score_limit=#{totalScoreLimit},memo=#{memo},status=#{status},operator=#{operator},create_time=#{createTime},update_time=#{updateTime}
+		where 
+			id=#{id}
+	</update>
+
+	<delete id="delete">
+        delete from conf_sign where id=#{id}
+    </delete>
+	
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.qbao.dao"/>
+    </typeAliases>
+
+    <environments default="oneday">
+        <environment id="oneday">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="com.qbao.config.DruidDataSourceFactory">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="${db.credit.connection}"/>
+                <property name="username" value="${db.credit.user}"/>
+                <property name="password" value="${db.credit.pass}"/>
+                <property name="maxActive" value="${db.maxActive}"/>
+                <property name="minIdle" value="${db.minIdle}" />
+                <property name="initialSize" value="${db.initialSize}"/>
+                <property name="maxWait" value="${db.maxWait}" />
+                <property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}"/>
+                <property name="validationQuery" value="SELECT now() "/>
+                <property name="testWhileIdle" value="true"/>
+                <property name="testOnBorrow" value="false"/>
+                <property name="testOnReturn" value="false"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--这个包名写法。mapper xml文件和代理接口在同一个目录下-->
+        <package name="com.qbao.dao"></package>
+    </mappers>
+</configuration>
+
+

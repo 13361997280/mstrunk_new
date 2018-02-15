@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.news.NewsMapper" >
+
+
+  <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.news.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="out_link" property="outLink" jdbcType="VARCHAR" />
+    <result column="is_release" property="isRelease" jdbcType="BIT" />
+  </resultMap>
+
+
+  <resultMap id="ResultMapWithBLOBs" type="com.qianwang.dao.domain.news.News" extends="BaseResultMap" >
+    <result column="news_content" property="newsContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, sub_title, status, channel, image_url, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    news_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianwang.dao.domain.news.News" >
+    insert into news (title, sub_title,
+      status, channel, image_url,
+      update_time, news_content,out_link, create_time,)
+    values (#{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{channel,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{newsContent,jdbcType=LONGVARCHAR},#{outLink},#{createTime})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianwang.dao.domain.news.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="subTitle != null" >
+        sub_title,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="newsContent != null" >
+        news_content,
+      </if>
+      <if test="outLink != null" >
+        out_link,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isRelease != null" >
+        is_release,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsContent != null" >
+        #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="outLink != null" >
+        #{outLink},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="isRelease != null" >
+        #{isRelease},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.news.News" >
+    update news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsContent != null" >
+        news_content = #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="outLink != null" >
+        out_link = #{outLink,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qianwang.dao.domain.news.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      news_content = #{newsContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.news.News" >
+    update news
+    set title = #{title,jdbcType=VARCHAR},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectNews" resultType="com.qianwang.dao.domain.news.News">
+    select
+    id, title, sub_title subTitle, status, channel, image_url imageUrl,create_time createTime,
+    is_release isRelease, update_time updateTime, news_content newsContent,out_link outLink
+    from news
+    order by ${orderBy}
+    limit #{start},#{length}
+  </select>
+
+  <select id="selectNewsCount" resultType="int">
+    select count(1) from news
+  </select>
+
+  <update id="updateNews">
+    update news set is_release = #{isRelease,jdbcType=TINYINT},update_time = now() where id = #{newsId};
+  </update>
+
+  <select id="selectReleaseNews" resultType="int">
+    select count(1) from news where is_release = 1
+  </select>
+
+  <select id="selectOutNews" resultType="com.qianwang.dao.domain.news.News">
+    select * from news where is_release = 1 order by update_time desc limit #{size}
+  </select>
+</mapper>

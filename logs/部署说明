@@ -1,0 +1,117 @@
+doo-solr-grond 部署说明
+
+1. 很多包冲突，需要调试
+
+导入项目到eclipse ,去掉maven属性， 修改config build path , 加入LIB下的两个包  lib-dooioo , lib-strip , 
+很多包有重复jar，需要修改
+
+eclipse 快捷方式  ， eclipse编辑器中单击右键可以看到很多快捷方式
+
+
+2. Arch.Search.dooioo  提供后台接口和界面
+启动engine: com.dooioo.search.engine.DooiooServer console打印出系统属性信息：
+
+++++ proprertyFile.path = /Volumes/D/MYworkspace/dooioo-solr-ground/conf/dooioo/costin.properties
++++++ Root.path = /Volumes/D/MYworkspace/dooioo-solr-ground
++++++ Engine.user.dir = /Volumes/D/MYworkspace/dooioo-solr-ground/Arch.Search.dooioo
++++++ Engine.user.name = viv
++++++ Engine.user.home = /Users/viv
++++++ Engine.port = 29010
+
+
+js ,cs ,templet 文件路径定义在： util.properties.java 中
+
+
+
+德佑自定义开发的分词项目：dooioo-solr-IKanalyze
+主要看字典配置：org.wltea.analyzer.cfg.DefaultConfig  这个类配置了所有字典路径
+如果Arch.Search.dooioo 调用IKanalyzer出错，大部分是引用的项目中有lucene 的多个版本冲突导致
+如果inputstream 加载不了文件，可以用下面的方法加载
+File f = new File(cfg.getMainDictionary());
+		InputStream is = null;
+
+
+
+
+URL的参数配置在HttpPO 中
+public class HttpPo {
+	private String client;
+	private String type;
+	private String subType;
+	private String keyWord;
+	private String sort;
+	private String page;
+	private String pageSize;
+	/** 最大字符距离 **/
+	private String dmax;
+	/** 最小字符距离 **/
+	private String dmin;
+	/** 最小相似度 **/
+	private String xsmin;
+	/** 返回格式json,xml.. **/
+	private String format;
+	// 是否推荐小区信息
+	private String property;
+	// 是否推荐学校信息
+	private String school;
+	// 是否推荐纠错信息
+	private String recommend;
+
+
+链接例子：
+
+
+特殊字符去掉,阿拉伯数字，繁体，壹-拾，大小写字母转换为统一格式做匹配的词
+http://localhost:29010/search?type=clearword&keyword=簡體把/1377777abc阿ABCai壹贰叁一二三
+
+简体《＝》繁体相互转换
+http://localhost:29010/search?type=fanti&subtype=jt2ft&keyword=上海美丽元
+http://localhost:29010/search?type=fanti&subtype=ft2jt&keyword=當今中國為什麼如此彊大？看看在俄羅斯流傳的笑話你就知道了
+
+分词：
+http://localhost:29010/search?type=fenci&keyword=佳信徐汇公寓三室一厅400万中山路弄10-1201号當今中國為什麼如此彊大看在俄羅斯流傳的笑話你就知道了
+
+简单拼音，全拼音
+http://localhost:29010/search?type=pinyin&subtype=py&keyword=厦门
+http://localhost:29010/search?type=pinyin&subtype=jp&keyword=厦门
+
+
+把拼音转换为地产名称
+http://localhost:29010/search?type=pinyin2dycn&keyword=jxxhgy
+
+
+
+推荐服务
+http://localhost:29010/search?type=recommend&keyword=上海美麗元
+
+
+地产行业语意解析
+http://localhost:29010/search?type=wordtype&keyword=佳信徐汇公寓三室一厅400万中山路弄10-1201号
+
+
+
+
+
+
+
+生成分词字典 RecommendAllDic.getInstance();
+RecommendDataService 里面改了查数据库的接口为查solr的
+查数据改为查如下solr的房源接口
+http://localhost:18181/solr/#/estate/
+
+
+http访问链接url参数查看
+com.dooioo.search.engine.DooiooParser
+               addHandler(HttpMethod.GET, "/pic", PicHandler.class);
+		addHandler(HttpMethod.GET, "/js", JsHandler.class);
+		addHandler(HttpMethod.GET, "/css", CssHandler.class);
+		addHandler(HttpMethod.GET, "/main", DooiooMainHandler.class);  首页
+		addHandler(HttpMethod.GET, "/back", BackHandler.class);        后台页面
+		addHandler(HttpMethod.GET, "/search", SearchHandler.class);    搜索接口
+		addHandler(HttpMethod.GET, "/task", TaskHandler.class);        定时任务
+
+
+
+3.Arch.Search.lexis  提供楼盘数据清洗的工具
+
+

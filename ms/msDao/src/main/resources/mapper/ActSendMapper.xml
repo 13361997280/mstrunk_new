@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.ActSendMapper" >
+  <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.ActSend" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="send_tunnel" property="sendTunnel" jdbcType="TINYINT" />
+    <result column="tunnel_id" property="tunnelId" jdbcType="INTEGER" />
+    <result column="tunnel_name" property="tunnelName" jdbcType="VARCHAR" />
+    <result column="select_num" property="selectNum" jdbcType="INTEGER" />
+    <result column="act_num" property="actNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="message_id" property="messageId" jdbcType="INTEGER" />
+    <result column="user_select_group_id" property="userSelectGroupId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, `name`, send_tunnel, tunnel_id, tunnel_name, select_num, act_num, `status`, create_time,
+    send_time, message_id, user_select_group_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from act_send
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPage" resultType="com.qianwang.dao.domain.ActSend">
+    select * from act_send where user_id = #{userId} limit #{index},#{size}
+  </select>
+  <select id="selectByPageCount" resultType="java.lang.Integer">
+    select count(1) from act_send where user_id = #{userId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from act_send
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianwang.dao.domain.ActSend" >
+    insert into act_send (id, `name`, send_tunnel,
+      tunnel_id, tunnel_name, select_num, 
+      act_num, `status`, create_time,
+      send_time, message_id, user_select_group_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sendTunnel,jdbcType=TINYINT}, 
+      #{tunnelId,jdbcType=INTEGER}, #{tunnelName,jdbcType=VARCHAR}, #{selectNum,jdbcType=INTEGER}, 
+      #{actNum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{messageId,jdbcType=INTEGER}, #{userSelectGroupId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianwang.dao.domain.ActSend" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into act_send
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        `name`,
+      </if>
+      <if test="sendTunnel != null" >
+        send_tunnel,
+      </if>
+      <if test="tunnelId != null" >
+        tunnel_id,
+      </if>
+      <if test="tunnelName != null" >
+        tunnel_name,
+      </if>
+      <if test="selectNum != null" >
+        select_num,
+      </if>
+      <if test="actNum != null" >
+        act_num,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="messageId != null" >
+        message_id,
+      </if>
+      <if test="userSelectGroupId != null" >
+        user_select_group_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTunnel != null" >
+        #{sendTunnel,jdbcType=TINYINT},
+      </if>
+      <if test="tunnelId != null" >
+        #{tunnelId,jdbcType=INTEGER},
+      </if>
+      <if test="tunnelName != null" >
+        #{tunnelName,jdbcType=VARCHAR},
+      </if>
+      <if test="selectNum != null" >
+        #{selectNum,jdbcType=INTEGER},
+      </if>
+      <if test="actNum != null" >
+        #{actNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageId != null" >
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="userSelectGroupId != null" >
+        #{userSelectGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.ActSend" >
+    update act_send
+    <set >
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTunnel != null" >
+        send_tunnel = #{sendTunnel,jdbcType=TINYINT},
+      </if>
+      <if test="tunnelId != null" >
+        tunnel_id = #{tunnelId,jdbcType=INTEGER},
+      </if>
+      <if test="tunnelName != null" >
+        tunnel_name = #{tunnelName,jdbcType=VARCHAR},
+      </if>
+      <if test="selectNum != null" >
+        select_num = #{selectNum,jdbcType=INTEGER},
+      </if>
+      <if test="actNum != null" >
+        act_num = #{actNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageId != null" >
+        message_id = #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="userSelectGroupId != null" >
+        user_select_group_id = #{userSelectGroupId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.ActSend" >
+    update act_send
+    set `name` = #{name,jdbcType=VARCHAR},
+      send_tunnel = #{sendTunnel,jdbcType=TINYINT},
+      tunnel_id = #{tunnelId,jdbcType=INTEGER},
+      tunnel_name = #{tunnelName,jdbcType=VARCHAR},
+      select_num = #{selectNum,jdbcType=INTEGER},
+      act_num = #{actNum,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      message_id = #{messageId,jdbcType=INTEGER},
+      user_select_group_id = #{userSelectGroupId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

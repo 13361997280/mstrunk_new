@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   http://code.alibabatech.com/schema/dubbo
+	   http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <dubbo:consumer check="false"></dubbo:consumer>
+
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}"/>
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}"/>
+
+    <dubbo:reference id="userRegistDubboService" interface="com.qb.ucapi.dubbo.service.UserRegistDubboService" version="1.0"/>
+    <dubbo:reference id="userRouteDubboService" interface="com.qb.loginapi.dubbo.service.UserRouteDubboService" version="1.0"/>
+    <dubbo:reference id="userInfoDubboService" interface="com.qb.ucslaveapi.dubbo.service.UserInfoDubboService" version="1.0"/>
+    <dubbo:reference id="userInfoWriteDubboService" interface="com.qb.ucapi.dubbo.service.UserInfoWriteDubboService" version="1.0"/>
+    <dubbo:reference id="userRoleDubboService" interface="com.qb.ucslaveapi.dubbo.service.UserRoleDubboService" version="1.0"/>
+    <dubbo:reference id="userDubboService" interface="com.qb.ucslaveapi.dubbo.service.UserDubboService" version="1.0"/>
+    <dubbo:reference id="userWriteDubboService" interface="com.qb.ucapi.dubbo.service.UserWriteDubboService" version="1.0"/>
+    <dubbo:reference id="userRoleWriteDubboService" interface="com.qb.ucapi.dubbo.service.UserRoleWriteDubboService" version="1.0"/>
+</beans>

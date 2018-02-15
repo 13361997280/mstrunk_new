@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.confbaseset.ConfBaseSetMapper" >
+  <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.confbaseset.ConfBaseSet" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="oneday_score_limit" property="onedayScoreLimit" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, oneday_score_limit, `status`, `operator`, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from conf_base_set
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from conf_base_set
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianwang.dao.domain.confbaseset.ConfBaseSet" >
+    insert into conf_base_set (id, oneday_score_limit, `status`,
+      `operator`, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{onedayScoreLimit,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER},
+      #{operator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianwang.dao.domain.confbaseset.ConfBaseSet"  useGeneratedKeys="true" keyProperty="id">
+    insert into conf_base_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="onedayScoreLimit != null" >
+        oneday_score_limit,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="operator != null" >
+        `operator`,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="onedayScoreLimit != null" >
+        #{onedayScoreLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.confbaseset.ConfBaseSet" >
+    update conf_base_set
+    <set >
+      <if test="onedayScoreLimit != null" >
+        oneday_score_limit = #{onedayScoreLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        `operator` = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.confbaseset.ConfBaseSet" >
+    update conf_base_set
+    set oneday_score_limit = #{onedayScoreLimit,jdbcType=DECIMAL},
+      `status` = #{status,jdbcType=INTEGER},
+     `operator` = #{operator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+  <select id="selectByOnline" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from conf_base_set where `status` = 0
+  </select>
+
+  <select id="selectByOffline" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from conf_base_set where `status` = 1 ORDER BY  update_time   DESC  limit #{start},#{rows}
+  </select>
+
+  <select id="selectByOfflineCount" resultType="java.lang.Integer">
+    select count(1) from conf_base_set where `status` = 1
+  </select>
+</mapper>

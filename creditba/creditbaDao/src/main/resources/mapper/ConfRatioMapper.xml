@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.confratio.ConfRatioMapper">
+    <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.advertisement.ConfRatio">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="list_name" property="listName" jdbcType="VARCHAR"/>
+        <result column="start_score" property="startScore" jdbcType="DECIMAL"/>
+        <result column="end_score" property="endScore" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="ratio" property="ratio" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, list_name, start_score, end_score, status, ratio, create_time, update_time,
+    operator
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from conf_ratio
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from conf_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+    insert into conf_ratio ( list_name, start_score,
+      end_score,  ratio, operator
+      )
+    values ( #{listName,jdbcType=VARCHAR}, #{startScore,jdbcType=DECIMAL},
+      #{endScore,jdbcType=DECIMAL}, #{ratio,jdbcType=DECIMAL},
+      #{operator,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+        insert into conf_ratio
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="listName != null">
+                list_name,
+            </if>
+            <if test="startScore != null">
+                start_score,
+            </if>
+            <if test="endScore != null">
+                end_score,
+            </if>
+            <if test="status != null">
+                "status",
+            </if>
+            <if test="ratio != null">
+                ratio,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="operator != null">
+                "operator",
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="listName != null">
+                #{listName,jdbcType=VARCHAR},
+            </if>
+            <if test="startScore != null">
+                #{startScore,jdbcType=DECIMAL},
+            </if>
+            <if test="endScore != null">
+                #{endScore,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="ratio != null">
+                #{ratio,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+        update conf_ratio
+        <set>
+            <if test="listName != null">
+                list_name = #{listName,jdbcType=VARCHAR},
+            </if>
+            <if test="startScore != null">
+                start_score = #{startScore,jdbcType=DECIMAL},
+            </if>
+            <if test="endScore != null">
+                end_score = #{endScore,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="ratio != null">
+                ratio = #{ratio,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+    update conf_ratio
+    set list_name = #{listName,jdbcType=VARCHAR},
+      start_score = #{startScore,jdbcType=DECIMAL},
+      end_score = #{endScore,jdbcType=DECIMAL},
+      status = #{status,jdbcType=BIT},
+      ratio = #{ratio,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="getAll" resultMap="BaseResultMap" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+        select
+        <include refid="Base_Column_List"/>
+        from conf_ratio
+        where status != 1
+    </select>
+
+
+    <select id="getListBylistName" resultMap="BaseResultMap"
+            parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+        select
+        <include refid="Base_Column_List"/>
+        from conf_ratio
+        where list_name = #{listName,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="getDis" resultType="String">
+    select
+    DISTINCT  list_name
+    from conf_ratio
+  </select>
+
+
+    <select id="getStatus" resultMap="BaseResultMap" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+        select
+        <include refid="Base_Column_List"/>
+        from conf_ratio
+     <where>     list_name  in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         group by list_name
+     </where>
+    </select>
+
+
+    <update id="updateStatus" parameterType="com.qianwang.dao.domain.advertisement.ConfRatio">
+    update conf_ratio
+    set
+     status  =1
+    where  status =0
+  </update>
+</mapper>

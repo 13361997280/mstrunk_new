@@ -1,0 +1,40 @@
+一、脚本说明
+
+   1. 脚本：monitor_start.sh
+   功能：监控 monitor_*.sh 脚本是否启动，如未启动则启动。
+   配置说明：
+
+		  #发送短信接口地址  --短信接口地址ms-msg接口地址，根据不同环境修改脚本
+			sendMsgUrl="http://192.168.132.162:8081/sms/sendsmsByMobile"
+
+			#接收异常信息手机号--根据需要修改
+			mobileArray=("13472879099" "13472879999")
+			#接收异常信息邮箱 --根据需要修改
+			emailArray=("guoxiaobing@qbao.com" "huangzhi@qbao.com")
+
+   2. 脚本：monitor_*.sh
+      功能：监控es数据入库是否正常
+      配置说明：
+
+   		  #发送短信接口地址  --短信接口地址ms-msg接口地址，根据不同环境修改脚本
+   			sendMsgUrl="http://192.168.132.162:8081/sms/sendsmsByMobile"
+
+   	    #es集群 要监控es的节点，根据不同环境修改脚本。只需配置一台机器
+         esAddress="192.168.14.107:9200"
+   			#接收异常信息手机号--根据需要修改
+   			mobileArray=("13472879099" "13472879999")
+   			#接收异常信息邮箱 --根据需要修改
+   			emailArray=("guoxiaobing@qbao.com" "huangzhi@qbao.com")
+
+
+二、部署及启动方式：
+
+   1、 脚本文件存放目录 /opt/monitor
+
+   2、 monitor_start.sh
+   以上脚本部署同一台机器，部署一台机器即可。
+   启动顺序： 只需启动 monitor_start.sh 即可。
+
+   3、cron_monitor_*.sh监控脚本和建立索引脚本（cron_data_*.sh）部署在同一台机器，以crontab方式运行。
+      cron_start.sh
+   

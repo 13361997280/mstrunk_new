@@ -1,0 +1,1 @@
+./stop.sh com.dooioo.search.engine.DooiooServer

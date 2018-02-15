@@ -1,0 +1,6 @@
+. /home/jiagouzu/dooioo/bin/env.sh
+
+ 
+
+ssh solrA "cd /home/jiagouzu/dooioo/bin/; . /home/jiagouzu/dooioo/bin/ssh-restart.sh;  "
+

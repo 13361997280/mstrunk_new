@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.mapper.authority.AuthorityMapper">
+	 
+	<!--查询权限记录信息 -->
+	<select id="findAuthorities" resultType="authority">
+		SELECT 
+			authority_code as authorityCode,
+			authority_name as authorityName,
+			create_time as createTime,
+			create_user as createUser
+		FROM dc.authority 
+	</select> 
+	
+		<!-- 新增权限记录 -->
+	<select id="hasAuthority" resultType="long" parameterType="authority">
+		SELECT 
+			count(authority_code)
+		FROM dc.authority where authority_code = #{authorityCode}
+	</select> 
+	
+	<select id="hasMenuAuthorities" resultType="int" parameterType="java.util.Map">
+		SELECT 
+			count(*)
+		FROM dc.menu_authority a,dc.menu m where authority_code = #{authorityCode}
+			and a.menu_id = m.id and m.url like '%${url}%' 
+	</select> 
+	
+	<!-- 新增权限记录 -->
+	<insert id="addAuthority" parameterType="authority">
+		INSERT INTO dc.authority (
+			authority_code,
+			authority_name,
+			create_time,
+			create_user
+		)values(
+			#{authorityCode},
+			#{authorityName},
+			#{createTime},
+			#{createUser}
+		)	
+	</insert> 
+	
+	<!-- 新增权限记录 -->
+	<update id="updateAuthority" parameterType="authority">
+		update dc.authority set authority_name = #{authorityName} where authority_code = #{authorityCode}
+	</update> 
+	
+	<!-- 删除权限记录 -->
+	<delete id="delAuthority" parameterType="authority">
+		delete from dc.authority where authority_code = #{authorityCode}
+	</delete> 
+</mapper>

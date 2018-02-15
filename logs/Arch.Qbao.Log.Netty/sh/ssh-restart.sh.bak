@@ -1,0 +1,15 @@
+#!/bin/bash
+
+.  /home/jiagouzu/dooioo/bin/env.sh;
+
+
+
+chmod -R 755 /home/jiagouzu/dooioo;
+chmod -R 755 /home/jiagouzu/dooioo/bin;
+
+
+. /home/jiagouzu/dooioo/stopnetty.sh;
+
+. /home/jiagouzu/dooioo/start.sh;
+
+

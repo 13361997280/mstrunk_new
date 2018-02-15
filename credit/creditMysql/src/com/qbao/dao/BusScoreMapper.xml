@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qbao.dao.BusScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.qbao.dto.BusScore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="ratio" property="ratio" jdbcType="DECIMAL" />
+    <result column="total_score" property="totalScore" jdbcType="DECIMAL" />
+    <result column="credit_score" property="creditScore" jdbcType="DECIMAL" />
+    <result column="add_score" property="addScore" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="adjust_score" property="adjustScore" jdbcType="DECIMAL" />
+    <result column="adjust_time" property="adjustTime" jdbcType="TIMESTAMP" />
+    <result column="sign_score" property="signScore" jdbcType="DECIMAL" />
+    <result column="task_score" property="taskScore" jdbcType="DECIMAL" />
+    <result column="sign_fre" property="signFre" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, ratio, total_score, credit_score, add_score, `status`, add_time, adjust_score, 
+    adjust_time, sign_score, task_score, sign_fre, create_time, update_time
+  </sql>
+  <insert id="insertSelective" parameterType="com.qbao.dto.BusScore" >
+    insert into bus_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="ratio != null" >
+        ratio,
+      </if>
+      <if test="totalScore != null" >
+        total_score,
+      </if>
+      <if test="creditScore != null" >
+        credit_score,
+      </if>
+      <if test="addScore != null" >
+        add_score,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="adjustScore != null" >
+        adjust_score,
+      </if>
+      <if test="adjustTime != null" >
+        adjust_time,
+      </if>
+      <if test="signScore != null" >
+        sign_score,
+      </if>
+      <if test="taskScore != null" >
+        task_score,
+      </if>
+      <if test="signFre != null" >
+        sign_fre,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="creditScore != null" >
+        #{creditScore,jdbcType=DECIMAL},
+      </if>
+      <if test="addScore != null" >
+        #{addScore,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustScore != null" >
+        #{adjustScore,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustTime != null" >
+        #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signScore != null" >
+        #{signScore,jdbcType=DECIMAL},
+      </if>
+      <if test="taskScore != null" >
+        #{taskScore,jdbcType=DECIMAL},
+      </if>
+      <if test="signFre != null" >
+        #{signFre,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from bus_score
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <update id="updateByUserIdSelective" parameterType="com.qbao.dto.BusScore" >
+    update bus_score
+    <set >
+      <if test="ratio != null" >
+        ratio = #{ratio,jdbcType=DECIMAL},
+      </if>
+      <if test="totalScore != null" >
+        total_score = #{totalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="creditScore != null" >
+        credit_score = #{creditScore,jdbcType=DECIMAL},
+      </if>
+      <if test="addScore != null" >
+        add_score = #{addScore,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustScore != null" >
+        adjust_score = #{adjustScore,jdbcType=DECIMAL},
+      </if>
+      <if test="adjustTime != null" >
+        adjust_time = #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signScore != null" >
+        sign_score = #{signScore,jdbcType=DECIMAL},
+      </if>
+      <if test="taskScore != null" >
+        task_score = #{taskScore,jdbcType=DECIMAL},
+      </if>
+      <if test="signFre != null" >
+        sign_fre = #{signFre,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

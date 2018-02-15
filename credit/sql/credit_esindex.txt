@@ -1,0 +1,129 @@
+
+用户信用信息es表结构
+http://192.168.14.107:9200/busscore/_mapping/busscore
+PUT
+{
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "user_id": {
+            "type": "integer"
+        },
+        "total_score":  {
+            "type": "float"
+        },
+        "ratio":  {
+            "type": "float"
+        },
+        "credit_score": {
+            "type": "float"
+        },
+        "add_score": {
+            "type": "float"
+        },
+        "status": {
+            "type": "integer"
+        },
+        "add_time": {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+        "adjust_score":  {
+            "type": "float"
+        },
+        "adjust_time": {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+		"create_time": {
+			"format": "yyyy-MM-dd HH:mm:ss.SSS",
+			"type": "date"
+		},
+		"update_time": {
+			"format": "yyyy-MM-dd HH:mm:ss.SSS",
+			"type": "date"
+		},
+		"sign_score":  {
+            "type": "float"
+        },
+        "task_score":  {
+            "type": "float"
+        },
+        "sign_fre":  {
+            "type": "integer"
+        }
+    }
+}
+
+用户信用信息详情es表结构
+http://192.168.14.107:9200/busscoredetail/_mapping/busscoredetail
+PUT
+{
+    "properties": {
+        "id": {
+            "type": "keyword"
+        },
+        "bus_id": {
+            "type": "integer"
+        },
+        "bus_type": {
+            "type": "keyword"
+        },
+        "user_id":  {
+            "type": "integer"
+        },
+        "operator": {
+            "type": "keyword"
+        },
+        "score": {
+            "type": "float"
+        },
+        "valid_start_time":  {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+        "valid_end_time": {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+		"memo": {
+			"type": "keyword"
+		},
+        "source": {
+            "type": "integer"
+        },
+        "order_id": {
+            "type": "keyword"
+        },
+        "amount": {
+            "type": "float"
+        },
+        "quantity":  {
+            "type": "integer"
+        },
+        "c_order_id": {
+            "type": "keyword"
+        },
+        "action": {
+            "type": "integer"
+        },
+        "company_id": {
+            "type": "integer"
+        },
+        "product_id": {
+            "type": "integer"
+        },
+        "create_time": {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+        "update_time":  {
+            "format": "yyyy-MM-dd HH:mm:ss.SSS",
+            "type": "date"
+        },
+        "task_id": {
+            "type": "integer"
+        }
+    }
+}

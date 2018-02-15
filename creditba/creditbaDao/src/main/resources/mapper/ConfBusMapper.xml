@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianwang.credit.dao.ConfBusDAO">
+
+	<resultMap type="com.qianwang.credit.entity.ConfBus" id="ConfBus">
+		<result property="busId" column="bus_id" />
+		<result property="busName" column="bus_name" />
+		<result property="memo" column="memo" />
+		<result property="status" column="status" />
+		<result property="link" column="link" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<sql id="Base_Column_List" >
+		bus_id,bus_name,memo,status,link,create_time,update_time
+	</sql>
+
+	<sql id="simple_where" >
+		where 1=1
+		<if test="busId!=null"> and bus_id=#{busId}</if>
+		<if test="status!=null"> and status=#{status}</if>
+		<if test="createTimeStart!=null"> and create_time &gt;= #{createTimeStart}</if>
+		<if test="createTimeEnd!=null"> and create_time &lt;= #{createTimeEnd}</if>
+		<if test="updateTimeStart!=null"> and update_time &gt;= #{updateTimeStart}</if>
+		<if test="updateTimeEnd!=null"> and update_time &lt;= #{updateTimeEnd}</if>
+		<if test="keyword!=null and keyword!=''"> and bus_name like '%#{keyword}%'</if>
+	</sql>
+
+	<sql id="simple_query" >
+		select
+			<include refid="Base_Column_List" />
+		from conf_bus
+			<include refid="simple_where" />
+		<if test="orderBy!=null and orderBy!=''">
+			order by #{orderBy} <if test="!asc">desc</if>
+		</if>
+
+	</sql>
+
+	<select id="pageQuery" resultMap="ConfBus">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryList" resultMap="ConfBus">
+		<include refid="simple_query" />
+	</select>
+
+	<select id="queryCount" resultType="long">
+		select count(1) 
+		from conf_bus
+		<include refid="simple_where" />
+	</select>
+
+	<select id="findById" resultMap="ConfBus">
+		select
+			<include refid="Base_Column_List" />
+		from conf_bus
+			where bus_id=#{id}
+	</select>
+
+	<insert id="save">
+		<selectKey resultType="integer" order="AFTER" keyProperty="busId">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+		insert into conf_bus (
+			bus_name,memo,status,link,create_time,update_time
+		)values(
+			#{busName},#{memo},#{status},#{link},#{createTime},#{updateTime}
+		)
+	</insert>
+	
+	<update id="update">
+		update 
+			conf_bus
+		set 
+			bus_name=#{busName},memo=#{memo},status=#{status},link=#{link},create_time=#{createTime},update_time=#{updateTime}
+		where 
+			bus_id=#{busId}
+	</update>
+
+	<delete id="delete">
+        delete from conf_bus where bus_id=#{id}
+    </delete>
+	
+</mapper>

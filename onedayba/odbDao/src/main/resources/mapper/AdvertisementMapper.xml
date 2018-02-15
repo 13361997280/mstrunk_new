@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.advertisement.AdvertisementMapper" >
+  <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.advertisement.Advertisement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="cust_ids" property="custIds" jdbcType="VARCHAR" />
+    <result column="cust_name" property="custName" jdbcType="VARCHAR" />
+    <result column="fee_type" property="feeType" jdbcType="INTEGER" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="create_stmp" property="createStmp" jdbcType="TIMESTAMP" />
+    <result column="update_stmp" property="updateStmp" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
+    <result column="index_image" property="indexImage" jdbcType="VARCHAR" />
+    <result column="news_image" property="newsImage" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="activity_url" property="activityUrl" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, start_time, end_time, `position`, `status`, cust_ids, fee_type, keyword,
+    create_stmp, update_stmp, delete_flag, index_image, news_image, description, activity_url,operator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />, (select c.cust_name from customer c where c.id = cust_ids) as cust_name
+    from advertisement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCondi" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />, (select c.cust_name from customer c where c.id = cust_ids) as cust_name
+    from advertisement
+    where delete_flag = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from advertisement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianwang.dao.domain.advertisement.Advertisement" >
+    insert into advertisement (id, title, start_time,
+    end_time, `position`, `status`,
+    cust_ids, fee_type, keyword,
+    create_stmp, update_stmp, delete_flag,
+    index_image, news_image, description,
+    activity_url,operator)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+    #{endTime,jdbcType=TIMESTAMP}, #{position,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+    #{custIds,jdbcType=VARCHAR}, #{feeType,jdbcType=INTEGER}, #{keyword,jdbcType=VARCHAR},
+    #{createStmp,jdbcType=TIMESTAMP}, #{updateStmp,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER},
+    #{indexImage,jdbcType=VARCHAR}, #{newsImage,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+    #{activityUrl,jdbcType=VARCHAR},#{operator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianwang.dao.domain.advertisement.Advertisement" >
+    insert into advertisement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="position != null" >
+        `position`,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="custIds != null" >
+        cust_ids,
+      </if>
+      <if test="feeType != null" >
+        fee_type,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="createStmp != null" >
+        create_stmp,
+      </if>
+      <if test="updateStmp != null" >
+        update_stmp,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="indexImage != null" >
+        index_image,
+      </if>
+      <if test="newsImage != null" >
+        news_image,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="activityUrl != null" >
+        activity_url,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="custIds != null" >
+        #{custIds,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=TINYINT},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="createStmp != null" >
+        #{createStmp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateStmp != null" >
+        #{updateStmp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="indexImage != null" >
+        #{indexImage,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="activityUrl != null" >
+        #{activityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.advertisement.Advertisement" >
+    update advertisement
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="position != null" >
+        `position` = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="custIds != null" >
+        cust_ids = #{custIds,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        fee_type = #{feeType,jdbcType=INTEGER},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="createStmp != null" >
+        create_stmp = #{createStmp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateStmp != null" >
+        update_stmp = #{updateStmp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="indexImage != null" >
+        index_image = #{indexImage,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        news_image = #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="activityUrl != null" >
+        activity_url = #{activityUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.advertisement.Advertisement" >
+    update advertisement
+    set title = #{title,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      `position` = #{position,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      cust_ids = #{custIds,jdbcType=VARCHAR},
+      fee_type = #{feeType,jdbcType=INTEGER},
+      keyword = #{keyword,jdbcType=VARCHAR},
+      create_stmp = #{createStmp,jdbcType=TIMESTAMP},
+      update_stmp = #{updateStmp,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      index_image = #{indexImage,jdbcType=VARCHAR},
+      news_image = #{newsImage,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      activity_url = #{activityUrl,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

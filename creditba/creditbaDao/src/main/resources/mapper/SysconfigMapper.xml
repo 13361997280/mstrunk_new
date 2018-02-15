@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.sysconfig.SysconfigMapper">
+    <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.advertisement.SysConfig">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="sys_key" property="sysKey" jdbcType="VARCHAR"/>
+        <result column="sys_desc" property="sysDesc" jdbcType="VARCHAR"/>
+        <result column="sys_value" property="sysValue" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createtime" jdbcType="DATE"/>
+        <result column="update_time" property="updatetime" jdbcType="DATE"/>
+        <result column="edit" property="edit" jdbcType="INTEGER"/>
+        <result column="operator" property="operator" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectSysConfig" resultMap="BaseResultMap">
+     SELECT * FROM sys_config  WHERE edit != 0
+    </select>
+    <select id="selectSysConfigByKey" resultMap="BaseResultMap">
+     SELECT * FROM sys_config  WHERE edit != 0 and sys_key = #{sysKey}
+    </select>
+
+    <insert id="insertConfig" parameterType="com.qianwang.dao.domain.advertisement.SysConfig">
+        insert into sys_config (
+        sys_key,sys_desc, sys_value,operator)
+        values (
+        #{sysKey,jdbcType=VARCHAR},
+        #{sysDesc,jdbcType=VARCHAR},
+        #{sysValue,jdbcType=VARCHAR},
+        #{operator,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <update id="updateConfig" parameterType="com.qianwang.dao.domain.advertisement.SysConfig" >
+        update sys_config
+        <set >
+            <if test="sysKey != null" >
+                sys_key = #{sysKey,jdbcType=VARCHAR},
+            </if>
+            <if test="sysDesc != null" >
+                sys_desc = #{sysDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="sysValue != null" >
+                sys_value = #{sysValue,jdbcType=VARCHAR},
+            </if>
+            <if test="edit != null" >
+                edit = #{edit,jdbcType=BIT},
+            </if>
+            <if test="operator != null" >
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <delete id="delConfig" parameterType="java.lang.Integer" >
+        delete from sys_config
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianwang.mapper.assistant.AuthoritiesMapper" >
+  <resultMap id="BaseResultMap" type="com.qianwang.dao.domain.assistant.Authorities" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="authority" property="authority" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapForList" type="com.qianwang.dao.domain.assistant.Authorities" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="INTEGER" />
+    <result column="authority_name" property="authorityName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, authority
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from authorities
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAuthorities" resultMap="BaseResultMapForList">
+    select a.id, u.username, g.`name` as authority_name
+    from authorities a,users u,authorities_group g
+    where a.userid=u.id and a.authority=g.id
+  </select>
+
+  <select id="selectAuthoritiesCount" resultType="int">
+    select count(1) from authorities a,users u,authorities_group g
+    where a.userid=u.id and a.authority=g.id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from authorities
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianwang.dao.domain.assistant.Authorities" >
+    insert into authorities (id, userid, authority
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{authority,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianwang.dao.domain.assistant.Authorities" >
+    insert into authorities
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="authority != null" >
+        authority,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="authority != null" >
+        #{authority,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianwang.dao.domain.assistant.Authorities" >
+    update authorities
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="authority != null" >
+        authority = #{authority,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianwang.dao.domain.assistant.Authorities" >
+    update authorities
+    set userid = #{userid,jdbcType=INTEGER},
+      authority = #{authority,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
